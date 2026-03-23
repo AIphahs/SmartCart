@@ -21,19 +21,32 @@ Automatically extracting products and prices
 Structuring purchase data for analysis
 Providing insights into spending behavior
 Enabling price comparison across stores
+
 ⚙️ Key Features
+
 📸 Receipt Scanning
+
 Upload and process grocery receipts using OCR
+
 🧾 Automatic Data Extraction
+
 Identify products, prices, totals, and store information
+
 📊 Spending Analytics
+
 Track expenses over time and analyze purchasing habits
+
 🏪 Price Comparison
 Compare product prices across different stores
+
 📈 Price Evolution Tracking (planned)
+
 Monitor price changes over time
+
 💡 Smart Insights (planned)
+
 Get recommendations to optimize grocery spending
+
 🏗️ Architecture
 
 The application follows a modular backend architecture:
@@ -43,12 +56,15 @@ PostgreSQL for data storage
 Docker for containerization
 OCR Service (mocked initially, extendable later)
 Parsing Engine to extract structured data from raw text
+
 🎯 Project Goals
+
 Build a real-world SaaS product with practical use cases
 Demonstrate backend architecture and system design skills
 Implement data processing and parsing logic
 Integrate DevOps practices (Docker, CI/CD)
 Create a scalable and maintainable system
+
 🚀 Future Improvements
 Improve OCR accuracy with external APIs
 Advanced product matching and categorization
