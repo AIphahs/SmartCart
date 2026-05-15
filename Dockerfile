@@ -1,0 +1,27 @@
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn package -DskipTests -B
+
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        tesseract-ocr \
+        tesseract-ocr-fra \
+        tesseract-ocr-eng \
+        libgomp1 && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+
+COPY --from=builder /app/target/*.jar app.jar
+
+RUN mkdir -p /app/uploads
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-Djna.library.path=/usr/lib/x86_64-linux-gnu", "-jar", "app.jar"]
