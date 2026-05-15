@@ -116,6 +116,7 @@ public class ReceiptService {
         dto.setTotalAmount(r.getTotalAmount());
         dto.setCurrency(r.getCurrency());
         dto.setImagePath(r.getImagePath());
+        dto.setRawText(r.getRawText());
         dto.setCreatedAt(r.getCreatedAt());
 
         if (r.getStore() != null) {
@@ -127,7 +128,24 @@ public class ReceiptService {
         }
 
         if (r.getItems() != null) {
-            dto.setItems(r.getItems().stream().map(this::toItemDto).collect(Collectors.toList()));
+            List<ReceiptItemDto> itemDtos = r.getItems().stream().map(this::toItemDto).collect(Collectors.toList());
+            dto.setItems(itemDtos);
+
+            BigDecimal itemsTotal = itemDtos.stream()
+                    .map(ReceiptItemDto::getTotalPrice)
+                    .filter(Objects::nonNull)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            dto.setItemsTotal(itemsTotal);
+
+            if (r.getTotalAmount() != null && itemsTotal.compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal diff = r.getTotalAmount().subtract(itemsTotal).abs();
+                dto.setValidationStatus(diff.compareTo(new BigDecimal("0.05")) <= 0 ? "OK" : "MISMATCH");
+                dto.setTotalDifference(r.getTotalAmount().subtract(itemsTotal).setScale(2, java.math.RoundingMode.HALF_UP));
+            } else if (r.getTotalAmount() == null) {
+                dto.setValidationStatus(itemDtos.isEmpty() ? "NO_ITEMS" : "NO_TOTAL");
+            } else {
+                dto.setValidationStatus("NO_ITEMS");
+            }
         }
         return dto;
     }

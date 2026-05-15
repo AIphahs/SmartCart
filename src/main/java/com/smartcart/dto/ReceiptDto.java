@@ -15,6 +15,10 @@ public class ReceiptDto {
     private BigDecimal totalAmount;
     private String currency;
     private String imagePath;
+    private String rawText;
+    private BigDecimal itemsTotal;
+    private String validationStatus;
+    private BigDecimal totalDifference;
     private LocalDateTime createdAt;
     private List<ReceiptItemDto> items;
 }
