@@ -26,21 +26,29 @@ export default function Stores() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {stores.map(s => (
-            <div key={s.id} className="bg-white rounded-xl shadow p-5 flex items-center justify-between">
-              <div>
-                <p className="font-semibold text-gray-800">{s.name}</p>
-                {s.address && <p className="text-sm text-gray-400 mt-0.5">{s.address}</p>}
+            <Link
+              key={s.id}
+              to={`/stores/${s.id}`}
+              className="bg-white rounded-xl shadow p-5 flex items-center justify-between hover:shadow-md transition-shadow"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-gray-800 truncate">{s.name}</p>
+                  {s.hours?.length > 0 && (
+                    <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium shrink-0 ${
+                      s.openNow ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'
+                    }`}>
+                      {s.openNow ? 'Ouvert' : 'Fermé'}
+                    </span>
+                  )}
+                </div>
+                {s.address && <p className="text-sm text-gray-400 mt-0.5 truncate">{s.address}</p>}
                 <p className="text-sm text-gray-500 mt-1.5">
                   {s.receiptCount} reçu{s.receiptCount !== 1 ? 's' : ''}
                 </p>
               </div>
-              <Link
-                to={`/receipts`}
-                className="text-emerald-500 text-sm hover:underline shrink-0"
-              >
-                Voir →
-              </Link>
-            </div>
+              <span className="text-emerald-500 text-sm shrink-0">Voir →</span>
+            </Link>
           ))}
         </div>
       )}

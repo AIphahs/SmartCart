@@ -26,11 +26,21 @@ public class Store {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "website")
+    private String website;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "store")
     private List<Receipt> receipts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("dayOfWeek ASC")
+    private List<StoreHours> hours = new ArrayList<>();
 
     @PrePersist
     protected void prePersist() {

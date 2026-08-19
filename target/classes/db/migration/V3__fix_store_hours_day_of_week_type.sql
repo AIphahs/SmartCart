@@ -1,0 +1,1 @@
+ALTER TABLE store_hours ALTER COLUMN day_of_week TYPE INTEGER;

@@ -5,6 +5,7 @@ import Receipts from './pages/Receipts'
 import ReceiptDetail from './pages/ReceiptDetail'
 import PriceComparison from './pages/PriceComparison'
 import Stores from './pages/Stores'
+import StoreDetail from './pages/StoreDetail'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/receipts/:id" element={<ReceiptDetail />} />
             <Route path="/compare" element={<PriceComparison />} />
             <Route path="/stores" element={<Stores />} />
+            <Route path="/stores/:id" element={<StoreDetail />} />
           </Routes>
         </main>
       </div>
